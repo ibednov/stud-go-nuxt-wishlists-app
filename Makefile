@@ -14,6 +14,11 @@ down:
 build:
 	docker compose build
 
+reup:
+	# make down
+	make build
+	make up
+
 create-service:
 	@mkdir -p app/back/services/$(SERVICE_NAME); \
 	cd app/back/services/$(SERVICE_NAME) && go mod init $(SERVICE_NAME) && \
