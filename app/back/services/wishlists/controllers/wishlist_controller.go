@@ -4,9 +4,10 @@ package controllers
 import (
 	"net/http" // Импортируем пакет для работы с HTTP
 
+	"wishlists/models" // Импортируем модели из пакета wishlists
+
 	"github.com/gin-gonic/gin" // Импортируем фреймворк Gin для создания веб-приложений
 	"gorm.io/gorm"             // Импортируем GORM, ORM для Go
-	"wishlists/models"         // Импортируем модели из пакета wishlists
 )
 
 // GetWishlists возвращает список всех списков подарков
@@ -34,5 +35,17 @@ func CreateWishlist(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusCreated, wishlist) // Возвращаем созданный список подарков с кодом 201
+	}
+}
+
+func DeleteWishlist(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id") // Получаем ID списка подарков из параметров запроса
+		if err := db.Delete(&models.Wishlist{}, id).Error; err != nil { // Удаляем список подарков из базы данных
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возвращаем ошибку, если не удалось удалить данные
+			return
+		}
+		c.Status(http.StatusNoContent) // Возвращаем статус 204 No Content
+		c.JSON(http.StatusOK, gin.H{"message": "Wishlist deleted"}) // Возвращаем сообщение об успешном удалении
 	}
 }

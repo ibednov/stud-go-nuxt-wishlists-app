@@ -2,9 +2,10 @@
 package routes
 
 import (
+	"wishlists/controllers" // Импортируем контроллеры из пакета wishlists
+
 	"github.com/gin-gonic/gin" // Импортируем фреймворк Gin для создания веб-приложений
 	"gorm.io/gorm"             // Импортируем GORM, ORM для Go
-	"wishlists/controllers"     // Импортируем контроллеры из пакета wishlists
 )
 
 // SetupRoutes настраивает маршруты для приложения
@@ -12,6 +13,7 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	router.GET("/wishlists/users", controllers.GetUsers(db)) // Получение списка пользователей
 	router.GET("/wishlists", controllers.GetWishlists(db)) // Получение списка всех списков подарков
 	router.POST("/wishlists", controllers.CreateWishlist(db)) // Создание нового списка подарков
+	router.DELETE("/wishlists/:id", controllers.DeleteWishlist(db)) // Удаление списка подарков
 
 	router.GET("/wishlists/wishes", controllers.GetWishes(db)) // Получение списка всех желаний
 	router.POST("/wishlists/wishes", controllers.CreateWish(db)) // Создание нового желания
