@@ -1,0 +1,1 @@
+# go-nuxt-wishlists-app
