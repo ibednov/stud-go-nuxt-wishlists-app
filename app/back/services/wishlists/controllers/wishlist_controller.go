@@ -2,8 +2,7 @@
 package controllers
 
 import (
-	"net/http" // Импортируем пакет для работы с HTTP
-
+	"net/http"         // Импортируем пакет для работы с HTTP
 	"wishlists/models" // Импортируем модели из пакета wishlists
 
 	"github.com/gin-gonic/gin" // Импортируем фреймворк Gin для создания веб-приложений
@@ -34,7 +33,24 @@ func CreateWishlist(db *gorm.DB) gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возвращаем ошибку, если не удалось сохранить данные
 			return
 		}
-		c.JSON(http.StatusCreated, wishlist) // Возвращаем созданный список подарков с кодом 201
+		c.JSON(http.StatusCreated, gin.H{"message": "Wishlist created", "data": wishlist}) // Возвращаем созданный список подарков с кодом 201
+	}
+}
+
+func UpdateWishlist(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
+		var wishlist models.Wishlist
+		if err := c.ShouldBindJSON(&wishlist); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := db.Model(&models.Wishlist{}).Where("id = ?", id).Updates(&wishlist).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		// c.Status(http.StatusNoContent)
+		c.JSON(http.StatusOK, gin.H{"message": "Wishlist updated", "data": wishlist})
 	}
 }
 
@@ -45,7 +61,7 @@ func DeleteWishlist(db *gorm.DB) gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возвращаем ошибку, если не удалось удалить данные
 			return
 		}
-		c.Status(http.StatusNoContent) // Возвращаем статус 204 No Content
+		// c.Status(http.StatusNoContent) // Возвращаем статус 204 No Content
 		c.JSON(http.StatusOK, gin.H{"message": "Wishlist deleted"}) // Возвращаем сообщение об успешном удалении
 	}
 }
