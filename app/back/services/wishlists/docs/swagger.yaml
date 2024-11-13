@@ -1,0 +1,44 @@
+definitions:
+  models.Wishlist:
+    properties:
+      createdAt:
+        description: Время создания записи, автоматически управляется GORM
+        type: string
+      description:
+        description: Описание списка подарков, может быть NULL
+        type: string
+      id:
+        description: Уникальный идентификатор списка подарков
+        type: integer
+      name:
+        description: Название списка подарков
+        type: string
+      updatedAt:
+        description: Время последнего обновления записи, автоматически управляется
+          GORM
+        type: string
+      userID:
+        description: Внешний ключ, указывающий на пользователя
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /wishlists:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all wishlists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Wishlist'
+            type: array
+      summary: Get all wishlists
+      tags:
+      - wishlists
+swagger: "2.0"

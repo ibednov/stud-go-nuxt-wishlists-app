@@ -4,12 +4,13 @@ import (
 	"log" // Импортируем пакет для логирования
 	"os"  // Импортируем пакет для работы с окружением
 
+	"wishlists/models" // Импортируем модели из пакета wishlists
+	"wishlists/routes" // Импортируем маршруты из пакета wishlists
+
 	"github.com/gin-gonic/gin" // Импортируем фреймворк Gin для создания веб-приложений
-	"github.com/joho/godotenv"  // Импортируем пакет для загрузки переменных окружения из .env файла
-	"gorm.io/driver/mysql"      // Импортируем драйвер MySQL для GORM
-	"gorm.io/gorm"              // Импортируем GORM, ORM для Go
-	"wishlists/models"          // Импортируем модели из пакета wishlists
-	"wishlists/routes"          // Импортируем маршруты из пакета wishlists
+	"github.com/joho/godotenv" // Импортируем пакет для загрузки переменных окружения из .env файла
+	"gorm.io/driver/mysql"     // Импортируем драйвер MySQL для GORM
+	"gorm.io/gorm"             // Импортируем GORM, ORM для Go
 )
 
 func init() {

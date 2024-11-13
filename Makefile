@@ -1,5 +1,8 @@
 .PHONY: up down create-service update-dependencies build
 
+# Переменные
+BACK_CONTAINER_NAME = back-service-wishlists
+
 # Загрузка переменных окружения из .env файла
 ifneq ("$(wildcard .env)","")
     include .env
@@ -18,6 +21,9 @@ reup:
 	# make down
 	make build
 	make up
+
+o-back:
+	docker compose exec -it $(BACK_CONTAINER_NAME) sh
 
 create-service:
 	@mkdir -p app/back/services/$(SERVICE_NAME); \

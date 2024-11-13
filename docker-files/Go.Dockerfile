@@ -13,17 +13,26 @@ COPY ${MODULE_PATH}/go.mod ./
 COPY ${MODULE_PATH}/go.sum ./
 RUN go mod download
 
+# Устанавливаем swag
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
+# Добавляем путь к исполняемым файлам Go
+ENV PATH="/go/bin:${PATH}"
+
 # Копируем остальные файлы из указанного пути
 COPY ${SERVICE_PATH}/ ./
 
+# Проверяем содержимое директории после копирования
+# RUN ls -l /app
+
+# Копируем .env файл
 COPY .env ./
 
-# RUN chmod +x /app/main
-
 # Собираем приложение
-RUN go build -o main .
+RUN go build -o main . || { echo 'Build failed'; exit 1; }  # Проверяем на ошибки сборки
 
-
+# Проверяем наличие файла main
+RUN ls -l /app
 
 # Запускаем приложение
 CMD ["/app/main"]

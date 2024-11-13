@@ -10,9 +10,16 @@ import (
 )
 
 // GetWishlists возвращает список всех списков подарков
+// @Summary Get all wishlists
+// @Description Get a list of all wishlists
+// @Tags wishlists
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.Wishlist
+// @Router /wishlists [get]
 func GetWishlists(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var wishlists []models.Wishlist // Объявляем переменную для хранения списка списков подарков
+		var wishlists []models.Wishlist                   // Объявляем переменную для хранения списка списков подарков
 		if err := db.Find(&wishlists).Error; err != nil { // Получаем все списки подарков из базы данных
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возвращаем ошибку, если не удалось получить данные
 			return
@@ -24,7 +31,7 @@ func GetWishlists(db *gorm.DB) gin.HandlerFunc {
 // CreateWishlist создает новый список подарков
 func CreateWishlist(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var wishlist models.Wishlist // Объявляем переменную для нового списка подарков
+		var wishlist models.Wishlist                        // Объявляем переменную для нового списка подарков
 		if err := c.ShouldBindJSON(&wishlist); err != nil { // Привязываем JSON из запроса к структуре списка подарков
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()}) // Возвращаем ошибку, если данные некорректны
 			return
@@ -56,7 +63,7 @@ func UpdateWishlist(db *gorm.DB) gin.HandlerFunc {
 
 func DeleteWishlist(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		id := c.Param("id") // Получаем ID списка подарков из параметров запроса
+		id := c.Param("id")                                             // Получаем ID списка подарков из параметров запроса
 		if err := db.Delete(&models.Wishlist{}, id).Error; err != nil { // Удаляем список подарков из базы данных
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) // Возвращаем ошибку, если не удалось удалить данные
 			return

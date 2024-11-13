@@ -38,6 +38,13 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       NAME: "Alex"
-
+    volumes:
+      - ${MODULE_PATH}/go.mod:/app/go.mod
+      - ${MODULE_PATH}/go.sum:/app/go.sum
+      - ${MODULE_PATH}/main.go:/app/main.go
+      - ${MODULE_PATH}/controllers:/app/controllers
+      - ${MODULE_PATH}/docs:/app/docs
+      - ${MODULE_PATH}/models:/app/models
+      - ${MODULE_PATH}/routes:/app/routes
 volumes:
   db_data:

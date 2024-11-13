@@ -120,3 +120,35 @@ Guide:
    1. Docker Desktop and check if container is running
    2. Check if `curl http://localhost:8080/` returns `Hello World`
    3. Check if `curl http://localhost:8080/env` returns `Hello {username}`
+
+---
+
+## Installing [Swagger](https://github.com/swaggo/gin-swagger)
+
+<!-- 1. Install new package by running: `make update-dependencies`
+    1. `github.com/swaggo/swag/cmd/swag`
+    2. `github.com/swaggo/gin-swagger`
+    3. `github.com/swaggo/files` -->
+2. Run command to get into container: `make o-back`
+3. And then into container run `go install github.com/swaggo/swag/cmd/swag@latest`
+4. Run `make o-back` to go into container
+5. Into container run `swag init`
+6. Then you can see `docs` folder with `docs.go` file into your project directory
+7. After this install this packages:
+   1. `go get -u github.com/swaggo/gin-swagger`
+   2. `go get -u github.com/swaggo/files`
+8. Then add annotations to your routes in `routes.go` file
+```
+        // @Summary Get all wishlists
+        // @Description Get a list of all wishlists
+        // @Tags wishlists
+        // @Accept json
+        // @Produce json
+        // @Success 200 {array} models.Wishlist
+        // @Router /wishlists [get]
+        func GetWishlists(c *gin.Context) {
+            // Your code for getting wishlists
+        }
+```
+
+1. Initialize swagger into your project
