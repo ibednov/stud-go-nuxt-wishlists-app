@@ -59,8 +59,8 @@ type WishlistChange struct {
 
 // Tag представляет модель тега
 type Tag struct {
-	ID   uint      `gorm:"primaryKey"` // Уникальный идентификатор тега
-	Name *string   // Название тега, может быть NULL
+	ID   uint   `gorm:"primaryKey"` // Уникальный идентификатор тега
+	Name string `gorm:"unique;size:255"` // Название тега
 }
 
 // WishlistTag представляет модель связи между списком подарков и тегами
